@@ -166,7 +166,9 @@ export async function POST(req: Request): Promise<Response> {
     const systemPrompt = BASE_PROMPT.replace('{name}', body.name).replace('{bio}', body.bio);
 
     const fixieApiKey = process.env.FIXIE_API_KEY;
+    console.log("🚀 ~ POST ~ fixieApiKey:", fixieApiKey)
     const fixieApiUrl = process.env.FIXIE_API_URL || 'https://api.fixie.ai';
+    console.log("🚀 ~ POST ~ fixieApiUrl:", fixieApiUrl)
     const fixieTeam = process.env.FIXIE_API_TEAM;
 
     const client = new FixieClient({ apiKey: fixieApiKey, url: fixieApiUrl });

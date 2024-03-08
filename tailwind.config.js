@@ -18,8 +18,8 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ['Luckiest Guy', 'sans-serif'],
-        serif: ['Luckiest Guy', 'sans-serif'],
+        sans: ['Inter-Regular', 'sans-serif'],
+        serif: ['Inter-Regular', 'sans-serif'],
       },
       colors: {
         'Holiday-Green': '#0D5753',

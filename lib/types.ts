@@ -21,7 +21,7 @@ export interface NameInputProps {
 
 export type PickerButtonProps = {
   className?: string;
-  currentCharacter: CharacterType;
+  currentCharacter: any;
 };
 
 export interface EpicButtonProps {

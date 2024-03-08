@@ -6,7 +6,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     Auth0Provider({
       clientId: process.env.AUTH0_ID || '',
       clientSecret: process.env.AUTH0_SECRET || '',
-      issuer: 'llamalabs.us.auth0.com',
+      issuer: process.env.AUTH0_ISSUER_BASE_URL,
     }),
   ],
 });

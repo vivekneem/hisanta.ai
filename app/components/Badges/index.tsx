@@ -4,7 +4,7 @@ const Badges = () => {
   const badges = [
     { color: 'bg-yellow-300', text: 'New!' },
     { color: 'bg-Pill-Green', text: 'Exciting!' },
-    { color: 'bg-red-300', text: 'Santa!' },
+    { color: 'bg-red-300', text: 'Hop!' },
     { color: 'bg-AI-Green', text: 'AI!' },
   ];
 

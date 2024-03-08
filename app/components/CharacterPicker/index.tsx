@@ -19,28 +19,29 @@ export default function CharacterPicker() {
   const { data: session } = useSession();
 
   let characters = config.availableCharacters;
-  const showBad = searchParams.get('nice') == '0' || false;
+  // const showBad = searchParams.get('nice') == '0' || false;
 
-  datadogRum.addAction('character-picker-viewed', {
-    bad: showBad,
-    user: session?.user?.email,
-  });
+  // datadogRum.addAction('character-picker-viewed', {
+  //   bad: showBad,
+  //   user: session?.user?.email,
+  // });
 
-  if (showBad) {
-    characters = characters.filter((c) => c.bad === true);
-  } else {
-    characters = characters.filter((c) => c.bad !== true);
-  }
-  const santa = characters.find((c) => c.characterId === 'santa' || c.characterId === 'badsanta');
+  // if (showBad) {
+  //   characters = characters.filter((c) => c?.bad === true);
+  // } else {
+  //   characters = characters.filter((c) => c?.bad !== true);
+  // }
+  const santa = characters.find((c) => c.characterId === 'santa');
+  const hopReceptionist = characters.find((c) => c.characterId === 'hop');
 
   const handleCreateClick = () => {
     setBuildOwn(true);
-    setSelectedCharacter(null);
+    // setSelectedCharacter({});
   };
 
   // handle state changes on the picker
-  const [mainCharacter, setMainCharacter] = useState(santa); // Handle main character
-  const [selectedCharacter, setSelectedCharacter] = useState<CharacterType | null>(null); // Handle border color change on click
+  const [mainCharacter, setMainCharacter] = useState(hopReceptionist); // Handle main character
+  const [selectedCharacter, setSelectedCharacter] = useState(hopReceptionist); // Handle border color change on click
   const changeCharacter = (newCharacter: CharacterType) => {
     setMainCharacter(newCharacter);
     setSelectedCharacter(newCharacter);
@@ -53,19 +54,24 @@ export default function CharacterPicker() {
       setMainCharacter(santa);
       setSelectedCharacter(santa);
     }
-  }, [santa, showBad]);
+  }, [santa]);
 
   return (
     <div>
       {/* Card */}
 
       <div className="flex flex-col bg-White-75 align-middle rounded-jumbo py-2.5 px-3 h-[492px] w-[340px] text-center text-black text-sm border border-black items-center overflow-x-hidden relative shadow-lg">
-        <div className="text-Holiday-Red text-xl">
-          {buildOwn ? 'Build your own holiday character!' : mainCharacter?.name}
-        </div>
+        <div className="text-black text-xl">{buildOwn ? 'Build your own holiday character!' : mainCharacter?.name}</div>
         {/* Selected Character */}
         <div className="flex justify-center mt-8">
-          {buildOwn ? (
+          <Image
+            src={`/images/${mainCharacter?.image}`}
+            alt={mainCharacter?.name || 'Unknown'}
+            width={125}
+            height={125}
+            className="drop-shadow-avatar"
+          />
+          {/* {buildOwn ? (
             <Image
               src={`/images/questionmark.png`}
               alt="Question mark"
@@ -81,11 +87,11 @@ export default function CharacterPicker() {
               height={125}
               className="drop-shadow-avatar"
             />
-          )}
+          )} */}
         </div>
         <div className="absolute bottom-[95px]">
           <div className="flex space-x-5 mt-12 justify-center">
-            {characters.slice(0, customCharactersEnabled && !showBad ? 3 : 4).map((character, index) => (
+            {characters.slice(0, customCharactersEnabled).map((character, index) => (
               <div key={index} onClick={() => changeCharacter(character)} className="w-[64px]">
                 <Image
                   src={`/images/${character.image}`}
@@ -99,7 +105,7 @@ export default function CharacterPicker() {
               </div>
             ))}
           </div>
-          {customCharactersEnabled && !showBad && (
+          {customCharactersEnabled && (
             <>
               <div className="flex space-x-5 mt-4 justify-center">
                 {characters.slice(3, 4).map((character, index) => (
@@ -130,7 +136,8 @@ export default function CharacterPicker() {
             </>
           )}
         </div>
-        {selectedCharacter ? (
+        <PickerButtons currentCharacter={selectedCharacter} className="absolute bottom-4" />
+        {/* {selectedCharacter ? (
           <PickerButtons currentCharacter={selectedCharacter} className="absolute bottom-4" />
         ) : (
           <div className="absolute bottom-4">
@@ -140,11 +147,11 @@ export default function CharacterPicker() {
               </EpicButton>
             </Link>
           </div>
-        )}
+        )} */}
       </div>
-      <div className="w-fit mx-auto mt-2">
+      {/* <div className="w-fit mx-auto mt-2">
         <NaughtyNiceSwitch />
-      </div>
+      </div> */}
     </div>
   );
 }

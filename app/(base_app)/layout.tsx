@@ -23,7 +23,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" className="">
       <head>
-        <Script src="https://www.googletagmanager.com/gtag/js?id=AW-11148404279" />
+        {/* <Script src="https://www.googletagmanager.com/gtag/js?id=AW-11148404279" />
         <Script id="google-analytics">
           {`
           window.dataLayer = window.dataLayer || [];
@@ -32,7 +32,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           gtag('config', 'AW-11148404279');
           gtag('config', 'G-W3L4D2ZMLR');
         `}
-        </Script>
+        </Script> */}
       </head>
       <body>
         <SessionProvider session={session}>
