@@ -1,6 +1,6 @@
 import { kv } from '@vercel/kv';
 import { put, head } from '@vercel/blob';
-import { CharacterType, AgentToCharacterData } from '@/lib/types';
+import { CharacterType, AgentToCharacterData, AgentConversationData } from '@/lib/types';
 import { Uuid } from 'uuid-tool';
 import fs from 'fs';
 
@@ -19,6 +19,24 @@ export async function saveCharacter(character: CharacterType, owner?: string): P
   if (owner) {
     await kv.json.set(`user:${owner}:${character.characterId}`, '$', character);
   }
+}
+
+export async function loadAgentConversation(agentId: string, conversationId: string): Promise<any> {
+  const getAgentConvo = await kv.json.get(`agentConversation:${agentId}:${conversationId}`, '$');
+  console.log('getAgentConvo:', getAgentConvo);
+  if (getAgentConvo === null) {
+    throw new Error(`Character ${agentId} or ${conversationId} not found`);
+  }
+  return getAgentConvo;
+}
+
+/** Store the given Character to KV. */
+export async function saveAgentConversation(
+  data: AgentConversationData,
+  agentId: string,
+  conversationId: string
+): Promise<void> {
+  await kv.json.set(`agentConversation:${agentId}:${conversationId}`, '$', data);
 }
 
 /** Load the Character Data mapped to the given Agent ID from KV. */

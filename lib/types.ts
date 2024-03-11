@@ -1,3 +1,5 @@
+import { ConversationId, ConversationTurn } from 'fixie/src/types';
+
 export type CharacterType = {
   characterId: string;
   name: string;
@@ -79,4 +81,9 @@ export type CharacterVoiceType = {
   voiceId: string;
   descriptor: string;
   character: string;
+};
+
+export type AgentConversationData = {
+  id: ConversationId;
+  turns: ConversationTurn[];
 };

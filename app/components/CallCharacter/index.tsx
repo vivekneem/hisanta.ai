@@ -17,6 +17,7 @@ import { CallFeedback } from '../CallFeedback';
 import { datadogRum } from '@datadog/browser-rum';
 import { CallError } from '../CallError';
 import { ShareCharacter } from '../ShareCharacter';
+import { CallTranscript } from '../CallTranscript';
 
 const DEFAULT_ASR_PROVIDER = 'deepgram';
 const DEFAULT_TTS_PROVIDER = 'eleven-ws';
@@ -57,7 +58,7 @@ function makeVoiceSession({
   webrtcUrl?: string;
 }): VoiceSession {
   console.log(`[makeVoiceSession] creating voice session with LLM ${model}`);
-  const fixieClient = new FixieClient({});
+  const fixieClient = new FixieClient({ apiKey: process.env.FIXIE_API_KEY, url: process.env.FIXIE_API_URL });
   const voiceInit: VoiceSessionInit = {
     webrtcUrl: webrtcUrl || 'wss://wsapi.fixie.ai',
     asrProvider: asrProvider || DEFAULT_ASR_PROVIDER,
@@ -342,6 +343,8 @@ export function CallCharacter({
       duration,
       conversationId: voiceSession?.conversationId || '',
     });
+    console.log("🚀 ~ onCallEnd ~ voiceSession:", voiceSession)
+    router.push(`/call-transcript/${voiceSession?.agentId}/conversations/${voiceSession?.conversationId}`);
   }, [voiceSession, isSupported, release, callStartTime, onHangupFinished]);
 
   // Invoked when the debug window is opened.
@@ -408,6 +411,12 @@ export function CallCharacter({
           shareButton={shareButton}
         />
       )}
+      {/* <CallTranscript
+        agentId={character.agentId}
+        duration={callDuration || undefined}
+        conversationId={voiceSession?.conversationId}
+        roomName={roomName || undefined}
+      /> */}
       <CallFeedback
         character={character}
         open={feedbackDialogOpen}
